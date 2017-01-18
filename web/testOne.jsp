@@ -10,22 +10,25 @@
 <html>
 <head>
     <title>Title</title>
-    <script language="text/javascript">
-        function validate(){
-            var resualt=false;
-            for(var i=0;i<document.test.t1.length;i++)
-            {
+    <link type="text/css" rel="stylesheet" href="local.css" />
+    <script language="javascript" charset="utf-8">
+        validate = function() {
+            var result=false ; var testnum = '';
+            <%for(int j = 0;j<104;j++){
+        String num = "t"+j;
 
-                if(document.test.t1[i].checked)
+    %>
+            for(var i=0;i<document.test.<%=num%>.length;i++){
+                if(document.test.<%=num%>[i].checked)
                 {
-                    resualt=true;
+                    result=true;
+
                 }
             }
-            if(!resualt)
+            if(!result)
             {
-                alert(" 为啥不选一个捏~！");
-            }
-            return resualt;
+                testnum += <%=j+1%> + '题 ';
+            } result=false;<% }%>  if(testnum!='') {alert(testnum+'没有做');window.event.returnValue = false;}
         }
 
     </script>
@@ -34,25 +37,10 @@
 </head>
 <body>
 
-<%--<a href="#" onclick="var result=false ; var testnum = '';--%>
-<%--<%for(int j = 0;j<1;j++){--%>
-    <%--String num = "t"+j;--%>
 
-<%--%>--%>
-<%--for(var i=0;i<document.test.<%=num%>.length;i++){--%>
-                <%--if(document.test.<%=num%>[i].checked)--%>
-                <%--{--%>
-                    <%--result=true;--%>
-
-                <%--}--%>
-            <%--}--%>
-            <%--if(!result)--%>
-            <%--{--%>
-              <%--testnum += <%=j+1%> + '题 ';--%>
-<%--} result=false;<% }%>  if(testnum!='') {alert(testnum+'没有做');window.event.returnValue = false;}">test</a>--%>
 
 <form name="test" action="" method="post">
-<table>
+<table id="table" >
     <%
         String pa = request.getParameter("p");
         int p;
@@ -84,7 +72,7 @@
         else{
             t= 10*p;
         }
-        for(int i = 10*(p-1);i < t;i++){
+        for(int i = 0;i < 104;i++){
     %>
     <tr>
         <td>
@@ -129,25 +117,13 @@
     <%if(pnum != 13){
 
     %>
-    <a href="testOne.jsp?p=<%=pnum%>">下一页</a>
+    <div id="submitDiv"><a id="nextLink" href="testOne.jsp?p=<%=pnum%>">下一页</a>
+
 
    <% }%>
-    <input type="submit" name="提交" onclick="var result=false ; var testnum = '';
-        <%for(int j = 0;j<104;j++){
-    String num = "t"+j;
-
-%>
-            for(var i=0;i<document.test.<%=num%>.length;i++){
-            if(document.test.<%=num%>[i].checked)
-            {
-            result=true;
-
-            }
-            }
-            if(!result)
-            {
-            testnum += <%=j+1%> + '题 ';
-            } result=false;<% }%>  if(testnum!='') {alert(testnum+'没有做');window.event.returnValue = false;}"/>
+    <br>
+    <input id="submitButton" type="submit" name="提交" onclick="validate()"/>
+</div>
 </form>
 
 </body>
